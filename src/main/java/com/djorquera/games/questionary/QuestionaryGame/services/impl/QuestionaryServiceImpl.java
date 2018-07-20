@@ -27,16 +27,21 @@ public class QuestionaryServiceImpl implements QuestionaryService {
 	@Override
 	public void createQuestionary(QuestionaryDTO questionary) {
 		Question question = Question.builder().question(questionary.getQuestion()).build();
-		questionRepository.save(question);
-		List<Answer> answers = questionary.getAnswers().stream()
-			.map(answer -> Answer.builder().correct(answer.isCorrect()).answer(answer.getAnswer()).question(question).build())
-			.collect(Collectors.toList());
-		boolean answersCorrect = answers.stream().filter(x -> !"".equals(x.getAnswer()) && x.getAnswer() != null).collect(Collectors.toList()).size() == answers.size()
-				&& answers.stream().filter(x -> x.isCorrect()).collect(Collectors.toList()).size() == 1
-				&& answers.size() > 1;
+		if (question.getQuestion() == null || "".equals(question.getQuestion())) {
+			throw new RuntimeException("The question is required!");
+		}
+		boolean answersCorrect = questionary.getAnswers().stream().filter(x -> !"".equals(x.getAnswer()) && x.getAnswer() != null).collect(Collectors.toList()).size() == questionary.getAnswers().size()
+				&& questionary.getAnswers().stream().filter(x -> x.isCorrect()).collect(Collectors.toList()).size() == 1
+				&& questionary.getAnswers().size() > 1;
 		if (!answersCorrect) {
 			throw new RuntimeException("The answers aren't correct!");
 		}
+		questionRepository.save(question);
+		List<Answer> answers = questionary.getAnswers().stream()
+			.map(answer -> {
+				return Answer.builder().correct(answer.isCorrect()).answer(answer.getAnswer()).question(question).build();
+			})
+			.collect(Collectors.toList());
 		answers.stream().map(answerRepository::save);
 	}
 
