@@ -51,7 +51,7 @@ public class QuestionaryServiceImpl implements QuestionaryService {
 		Question activeQuestion;
 		if (activeQuestions != null && activeQuestions.size() > 0) {
 			activeQuestion = activeQuestions.get(0);
-			List<Answer> answers = answerRepository.findByQuestionIdEqual(activeQuestion.getId());
+			List<Answer> answers = answerRepository.findByQuestionId(Question.builder().id(activeQuestion.getId()).build());
 			if (answers == null || answers.size() == 0) {
 				throw new RuntimeException("No answers found!");
 			}
