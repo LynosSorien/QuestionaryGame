@@ -6,4 +6,5 @@ import com.djorquera.games.questionary.QuestionaryGame.dto.QuestionaryDTO;
 
 public interface QuestionaryService extends Serializable{
 	void createQuestionary(QuestionaryDTO questionary);
+	QuestionaryDTO getActiveQuestion();
 }

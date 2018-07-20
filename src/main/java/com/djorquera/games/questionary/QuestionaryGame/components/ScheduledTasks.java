@@ -23,6 +23,6 @@ public class ScheduledTasks {
 	
  	@Scheduled(cron = "0 0 0 * * *")
 	public void sendQuestionary() {
-		log.info("SEND QUESTIONARIES AT {}", Calendar.getInstance().getTime());
+		log.info("SEND QUESTIONARIES AT {}!", Calendar.getInstance().getTime());
 	}
 }

@@ -39,11 +39,15 @@ public class Question {
 	
 	@Column(name = "active")
 	@Builder.Default
-	private boolean active = false;
+	private boolean active = true;
 	
 	@Column(name = "lastModified")
 	@Builder.Default
 	private Date lastModified = Calendar.getInstance().getTime();
+	
+	@Column(name = "insertedTime")
+	@Builder.Default
+	private Date insertedTime = Calendar.getInstance().getTime();
 	
 	@OneToMany(fetch=FetchType.LAZY)
 	private List<Answer> answers;
